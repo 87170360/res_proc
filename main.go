@@ -3,8 +3,10 @@ import (
 	"fmt"
 	"os"
 	"io"
+	"io/ioutil"
 	"strings"
 	"path/filepath"
+	"encoding/json"
 )
 
 const (
@@ -25,6 +27,9 @@ var (
 		"input2\\UI-美術資源繁體\\15.斗老千\\斗老千\\module33_doulaoqian_jifengjiangli_biaoti.png":true,
 		"input2\\UI-美術資源繁體\\15.斗老千\\斗老千\\图层-443111.png":true,
 		"input2\\UI-美術資源繁體\\2.创建角色\\module02_role_huantouxiang_c.png": true,
+		"input2\\UI-美術資源繁體\\11.江湖\\module6_jianghushi_bfst_a.png": true,
+		"input2\\UI-美術資源繁體\\11.江湖\\module6_jianghushi_bfst_b.png": true,
+		"input2\\UI-美術資源繁體\\18.江湖豪侠\\江湖豪侠\\module33_jianghuhaoxia_yijiejiao2.png": true,
 	}
 
 	//在处理ui_xxx_a.png -> a.png中，出现重复但不打印错误
@@ -44,6 +49,7 @@ var (
 		"input2\\UI-美術資源繁體\\29.江湖事\\module6_jianghushi_shuxing.png" : true,
 		"input2\\UI-美術資源繁體\\27.活动\\1.签到\\签到\\module33_qiandao_yilingqu.png" : true,
 		"input2\\UI-美術資源繁體\\0.共用（未完成）\\module14_wuxue_yizhuangbei.png" : true,
+		"input2\\UI-美術資源繁體\\0.共用（未完成）\\module65_pata_7.png" : true,
 	}
 
 	dirpro = []*dirprodata {
@@ -84,6 +90,14 @@ var (
 		&dirprodata{
 			dir1 : "input3\\img\\bg\\bg_login",
 			dir2 : "input2\\UI-美術資源繁體\\16.公告\\公告",
+			//0.png -> 0.png 
+			convert : func(str string) (string, string) {
+				return str, str
+			},
+		},
+		&dirprodata{
+			dir1 : "input3\\img\\bg\\bg_tower",
+			dir2 : "input2\\UI-美術資源繁體\\33.修罗塔",
 			//0.png -> 0.png 
 			convert : func(str string) (string, string) {
 				return str, str
@@ -245,6 +259,31 @@ var (
 			dir2 : "input2\\UI-美術資源繁體\\32.战斗",
 			m : map[string]string{
 				"ui_combat_module03_battle_anniu_shanbi.png" :"module03_battle_shanbi.png",
+			},
+		},
+		&fileprodata{
+			dir1 : "input1\\ui\\ui_story_info",
+			dir2 : "input2\\UI-美術資源繁體\\0.共用（未完成）\\按钮",
+			m : map[string]string{
+				"ui_story_info_module_bangpai_62.png" : "module08__jqfb_17.png",
+				"ui_story_info_module_bangpai_63.png" : "module08__jqfb_20.png",
+				"ui_story_info_module6_jianghushi_jiejiao_a.png" : "module08__jqfb_18.png",
+				"ui_story_info_module6_jianghushi_jiejiao_b.png" : "module08__jqfb_21.png",
+				"ui_story_info_module09__tzjm_saodang03.png" :"module08__jqfb_9.png",
+				"ui_story_info_module09__tzjm_saodang07.png" :"module08__jqfb_13.png",
+				"ui_story_info_module09__tzjm_saodang08.png" :"module08__jqfb_10.png",
+				"ui_story_info_module09__tzjm_saodang06.png" :"module08__jqfb_12.png",
+				"ui_story_info_module09__tzjm_saodang04.png" : "module08__jqfb_16.png",
+				"ui_story_info_module09__tzjm_saodang05.png" : "module08__jqfb_11.png",
+				"ui_story_info_tzjm_tiaozhananniu_b.png" : "module08__jqfb_15.png",
+				"ui_story_info_tzjm_tiaozhananniua.png" : "module08__jqfb_14.png",
+			},
+		},
+		&fileprodata{
+			dir1 : "input1\\ui\\ui_upgrade_gift",
+			dir2 : "input2\\UI-美術資源繁體\\0.共用（未完成）",
+			m : map[string]string{
+				"ui_upgrade_gift_module33_zljl_6.png" : "module65_pata_7.png",
 			},
 		},
 	}
@@ -473,7 +512,32 @@ func RemoveContents(dir string) error {
     return nil
 }
 
+type configInfo struct {
+	Input1 string `json:"ui_path"`
+	Input2 string `json:"tradition_res"`
+	Input3 string `json:"img_path"`
+	Output string `json:"output_path"`
+}
+
+func loadConf() (*configInfo, error) {
+	data, err := ioutil.ReadFile("conf.json")
+    if err != nil {
+        return nil, err
+    }
+
+	ci := &configInfo{}
+    err = json.Unmarshal(data, &ci)
+    if err != nil {
+        return nil, err
+    }
+    return ci, nil
+}
+
 func main() {
+
+	//conf, err := loadConf()
+	//fmt.Println(conf, err)
+
 	RemoveContents(outputDir)
 
 	files1 := getFileList(inputDir1)
