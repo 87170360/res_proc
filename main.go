@@ -9,53 +9,11 @@ import (
 	"encoding/json"
 )
 
-const (
-    inputDir1 = "input1"
-    inputDir2 = "input2"
-    inputDir3 = "input3"
-    outputDir = "output"
-)
-
 var (
-	//不使用
-	droplist = map[string]bool {
-		"input2\\UI-美術資源繁體\\14.斗酒\\module33_doujiu_lose.png":true,
-		"input2\\UI-美術資源繁體\\14.斗酒\\module33_doujiu_win.png":true,
-		"input2\\UI-美術資源繁體\\14.斗酒\\斗酒\\module33_doujiu_guizejieshao.png":true,
-		"input2\\UI-美術資源繁體\\23.押镖\\module21_yabiao_14.png":true,
-		"input2\\UI-美術資源繁體\\13.抽奖\\抽奖\\module33_choujiang_jifenpaihangbang_zi.png":true,
-		"input2\\UI-美術資源繁體\\15.斗老千\\斗老千\\module33_doulaoqian_jifengjiangli_biaoti.png":true,
-		"input2\\UI-美術資源繁體\\15.斗老千\\斗老千\\图层-443111.png":true,
-		"input2\\UI-美術資源繁體\\2.创建角色\\module02_role_huantouxiang_c.png": true,
-		"input2\\UI-美術資源繁體\\11.江湖\\module6_jianghushi_bfst_a.png": true,
-		"input2\\UI-美術資源繁體\\11.江湖\\module6_jianghushi_bfst_b.png": true,
-		"input2\\UI-美術資源繁體\\18.江湖豪侠\\江湖豪侠\\module33_jianghuhaoxia_yijiejiao2.png": true,
-	}
-
-	//在处理ui_xxx_a.png -> a.png中，出现重复但不打印错误
-	repeatForbitlist = map[string]bool {
-		"input2\\UI-美術資源繁體\\5.角色（人物属性）\\人物境界\\1.png" : true,
-		"input2\\UI-美術資源繁體\\5.角色（人物属性）\\人物境界\\2.png" : true,
-		"input2\\UI-美術資源繁體\\5.角色（人物属性）\\人物境界\\3.png" : true,
-		"input2\\UI-美術資源繁體\\5.角色（人物属性）\\人物境界\\4.png" : true,
-		"input2\\UI-美術資源繁體\\5.角色（人物属性）\\人物境界\\5.png" : true,
-		"input2\\UI-美術資源繁體\\5.角色（人物属性）\\人物境界\\6.png" : true,
-		"input2\\UI-美術資源繁體\\5.角色（人物属性）\\人物境界\\7.png" : true,
-		"input2\\UI-美術資源繁體\\5.角色（人物属性）\\人物境界\\8.png" : true,
-	}
-
-	//在处理ui_xxx_a.png -> a.png中，允许重复替换的
-	repeatlist = map[string]bool {
-		"input2\\UI-美術資源繁體\\29.江湖事\\module6_jianghushi_shuxing.png" : true,
-		"input2\\UI-美術資源繁體\\27.活动\\1.签到\\签到\\module33_qiandao_yilingqu.png" : true,
-		"input2\\UI-美術資源繁體\\0.共用（未完成）\\module14_wuxue_yizhuangbei.png" : true,
-		"input2\\UI-美術資源繁體\\0.共用（未完成）\\module65_pata_7.png" : true,
-	}
-
 	dirpro = []*dirprodata {
 		&dirprodata{
-			dir1 : "input3\\img\\icon\\jingjie",
-			dir2 : "input2\\UI-美術資源繁體\\5.角色（人物属性）\\人物境界",
+			dir1 : "icon\\jingjie",
+			dir2 : "5.角色（人物属性）\\人物境界",
 			//0.png -> jingjie_0.png 
 			convert : func(str string) (fk, nn string) {
 				fk = fmt.Sprintf("jingjie_%s", str)
@@ -64,40 +22,40 @@ var (
 			},
 		},
 		&dirprodata{
-			dir1 : "input3\\img\\bg\\bg_jianghu",
-			dir2 : "input2\\UI-美術資源繁體\\11.江湖\\输出文件",
+			dir1 : "bg\\bg_jianghu",
+			dir2 : "11.江湖\\输出文件",
 			//0.png -> 0.png 
 			convert : func(str string) (string, string) {
 				return str, str
 			},
 		},
 		&dirprodata{
-			dir1 : "input3\\img\\bg\\bg_zlzc",
-			dir2 : "input2\\UI-美術資源繁體\\30.逐鹿战场",
+			dir1 : "bg\\bg_zlzc",
+			dir2 : "30.逐鹿战场",
 			//0.png -> 0.png 
 			convert : func(str string) (string, string) {
 				return str, str
 			},
 		},
 		&dirprodata{
-			dir1 : "input3\\img\\build",
-			dir2 : "input2\\UI-美術資源繁體\\3.主界面\\功能建筑（繁体）",
+			dir1 : "build",
+			dir2 : "3.主界面\\功能建筑（繁体）",
 			//0.png -> 0.png 
 			convert : func(str string) (string, string) {
 				return str, str
 			},
 		},
 		&dirprodata{
-			dir1 : "input3\\img\\bg\\bg_login",
-			dir2 : "input2\\UI-美術資源繁體\\16.公告\\公告",
+			dir1 : "bg\\bg_login",
+			dir2 : "16.公告\\公告",
 			//0.png -> 0.png 
 			convert : func(str string) (string, string) {
 				return str, str
 			},
 		},
 		&dirprodata{
-			dir1 : "input3\\img\\bg\\bg_tower",
-			dir2 : "input2\\UI-美術資源繁體\\33.修罗塔",
+			dir1 : "bg\\bg_tower",
+			dir2 : "33.修罗塔",
 			//0.png -> 0.png 
 			convert : func(str string) (string, string) {
 				return str, str
@@ -107,8 +65,8 @@ var (
 
 	filepro = []*fileprodata {
 		&fileprodata{
-			dir1 : "input1\\ui\\ui_major",
-			dir2 : "input2\\UI-美術資源繁體\\11.江湖",
+			dir1 : "ui_major",
+			dir2 : "11.江湖",
 			m : map[string]string{
 				"ui_major_unlock.png"			:"module6_jianghu_suo1.png",
 				"ui_major_lock_2_hierarchy.png"	:"module6_jianghu_suo2.png",
@@ -125,16 +83,16 @@ var (
 			},
 		},
 		&fileprodata{
-			dir1 : "input3\\img\\bg\\bg_jianghu",
-			dir2 : "input2\\UI-美術資源繁體\\11.江湖\\输出文件",
+			dir1 : "bg\\bg_jianghu",
+			dir2 : "11.江湖\\输出文件",
 			m : map[string]string{
 				"module6_jianghu_zhuluzhanchang_a.png":"module6_jianghu_xiakexing_a.png",
 				"module6_jianghu_zhuluzhanchang_b.png":"module6_jianghu_xiakexing_b.png",
 			},
 		},
 		&fileprodata{
-			dir1 : "input1\\ui\\ui_lilian",
-			dir2 : "input2\\UI-美術資源繁體\\10.历练秘境",
+			dir1 : "ui_lilian",
+			dir2 : "10.历练秘境",
 			m : map[string]string{
 				"ui_lilian_module06_lilian_mingcheng06.png":"module06_lilian _mc1.png",
 				"ui_lilian_module06_lilian_mingcheng04.png":"module06_lilian _mc2.png",
@@ -145,8 +103,8 @@ var (
 			},
 		},
 		&fileprodata{
-			dir1 : "input1\\ui\\ui_mijing",
-			dir2 : "input2\\UI-美術資源繁體\\10.历练秘境",
+			dir1 : "ui_mijing",
+			dir2 : "10.历练秘境",
 			m : map[string]string{
 				"ui_mijing_module06_mijing_tubiao01.png":"module06_mijing _tubiao01.png",
 				"ui_mijing_module06_mijing_tubiao02.png":"module06_mijing _tubiao02.png",
@@ -157,8 +115,8 @@ var (
 			},
 		},
 		&fileprodata{
-			dir1 : "input1\\ui\\ui_shop",
-			dir2 : "input2\\UI-美術資源繁體\\28.商店",
+			dir1 : "ui_shop",
+			dir2 : "28.商店",
 			m : map[string]string{
 				"ui_shop_module46_shangdian25.png":"module46_shangdiantubiao25.png",
 				"ui_shop_module46_shangdian16.png":"module46_shangdiantubiao16.png",
@@ -169,8 +127,8 @@ var (
 			},
 		},
 		&fileprodata{
-			dir1 : "input1\\ui\\ui_combat_finish",
-			dir2 : "input2\\UI-美術資源繁體\\9.战斗结算",
+			dir1 : "ui_combat_finish",
+			dir2 : "9.战斗结算",
 			m : map[string]string{
 				"ui_combat_finish_module03_jiesuan_zbqh_a.png":"module03_jiesuan_2.png",
 				"ui_combat_finish_module03_jiesuan_wxhd_a.png":"module03_jiesuan_1.png",
@@ -182,88 +140,88 @@ var (
 			},
 		},
 		&fileprodata{
-			dir1 : "input1\\ui\\ui_gain_items",
-			dir2 : "input2\\UI-美術資源繁體\\0.共用（未完成）",
+			dir1 : "ui_gain_items",
+			dir2 : "0.共用（未完成）",
 			m : map[string]string{
 				"ui_gain_items_huode1.png":"huode.png",
 			},
 		},
 		&fileprodata{
-			dir1 : "input1\\ui\\ui_equip_tips",
-			dir2 : "input2\\UI-美術資源繁體\\0.共用（未完成）",
+			dir1 : "ui_equip_tips",
+			dir2 : "0.共用（未完成）",
 			m : map[string]string{
 				"ui_equip_tips_qianghuaanniu_a.png":"qianghua_a.png",
 				"ui_equip_tips_qianghuaanniu_b.png":"qianghua_b.png",
 			},
 		},
 		&fileprodata{
-			dir1 : "input3\\img\\bg\\bg_common",
-			dir2 : "input2\\UI-美術資源繁體\\0.共用（未完成）",
+			dir1 : "bg\\bg_common",
+			dir2 : "0.共用（未完成）",
 			m : map[string]string{
 				"jiesuozhaoshi.png":"jiesuo.png",
 			},
 		},
 		&fileprodata{
-			dir1 : "input1\\ui\\ui_saodang",
-			dir2 : "input2\\UI-美術資源繁體\\0.共用（未完成）",
+			dir1 : "ui_saodang",
+			dir2 : "0.共用（未完成）",
 			m : map[string]string{
 				"ui_saodang_sdwc.png":"saodang.png",
 			},
 		},
 		&fileprodata{
-			dir1 : "input1\\ui\\ui_mapbuild",
-			dir2 : "input2\\UI-美術資源繁體\\29.江湖事",
+			dir1 : "ui_mapbuild",
+			dir2 : "29.江湖事",
 			m : map[string]string{
 				"ui_mapbuild_module6_jianghushi_qiecha_a.png":"module6_jianghushi_qiecuo_a.png",
 				"ui_mapbuild_module6_jianghushi_qiecha_b.png":"module6_jianghushi_qiecuo_b.png",
 			},
 		},
 		&fileprodata{
-			dir1 : "input1\\ui\\ui_major_role",
-			dir2 : "input2\\UI-美術資源繁體\\26.混元",
+			dir1 : "ui_major_role",
+			dir2 : "26.混元",
 			m : map[string]string{
 				"ui_major_role_module98_hunyuan_9.png" :"2-1.png",
 				"ui_major_role_module98_hunyuan_20.png":"2-2.png",
 			},
 		},
 		&fileprodata{
-			dir1 : "input1\\ui\\ui_major_role",
-			dir2 : "input2\\UI-美術資源繁體\\7.时装",
+			dir1 : "ui_major_role",
+			dir2 : "7.时装",
 			m : map[string]string{
 				"ui_major_role_module11_rwsx_shizhuang.png" :"module40_shizhuang_15.png",
 			},
 		},
 		&fileprodata{
-			dir1 : "input1\\ui\\ui_meeting",
-			dir2 : "input2\\UI-美術資源繁體\\31.武道之巅",
+			dir1 : "ui_meeting",
+			dir2 : "31.武道之巅",
 			m : map[string]string{
 				"ui_meeting_module89_wdzd_24.png" :"adf.png",
 			},
 		},
 		&fileprodata{
-			dir1 : "input1\\ui\\ui_sign",
-			dir2 : "input2\\UI-美術資源繁體\\27.活动\\1.签到\\签到",
+			dir1 : "ui_sign",
+			dir2 : "27.活动\\1.签到\\签到",
 			m : map[string]string{
 				"ui_sign_module33_qiandao_buqian.png" :"補簽2.png",
 			},
 		},
 		&fileprodata{
-			dir1 : "input1\\ui\\ui_skill",
-			dir2 : "input2\\UI-美術資源繁體\\24.武学",
+			dir1 : "ui_skill",
+			dir2 : "24.武学",
 			m : map[string]string{
 				"ui_skill_module14_wuxue_anniu_xiulian.png" :"module14_wuxue_anniu _xiulian.png",
 			},
 		},
 		&fileprodata{
-			dir1 : "input1\\ui\\ui_combat",
-			dir2 : "input2\\UI-美術資源繁體\\32.战斗",
+			dir1 : "ui_combat",
+			dir2 : "32.战斗",
 			m : map[string]string{
 				"ui_combat_module03_battle_anniu_shanbi.png" :"module03_battle_shanbi.png",
 			},
 		},
 		&fileprodata{
-			dir1 : "input1\\ui\\ui_story_info",
-			dir2 : "input2\\UI-美術資源繁體\\0.共用（未完成）\\按钮",
+			dir1 : "ui_story_info",
+			dir2 : "0.共用（未完成）\\按钮",
 			m : map[string]string{
 				"ui_story_info_module_bangpai_62.png" : "module08__jqfb_17.png",
 				"ui_story_info_module_bangpai_63.png" : "module08__jqfb_20.png",
@@ -280,8 +238,8 @@ var (
 			},
 		},
 		&fileprodata{
-			dir1 : "input1\\ui\\ui_upgrade_gift",
-			dir2 : "input2\\UI-美術資源繁體\\0.共用（未完成）",
+			dir1 : "ui_upgrade_gift",
+			dir2 : "0.共用（未完成）",
 			m : map[string]string{
 				"ui_upgrade_gift_module33_zljl_6.png" : "module65_pata_7.png",
 			},
@@ -301,24 +259,37 @@ type fileprodata struct {
 	m map[string]string
 }
 
+func (f *fileprodata) getDir(conf *configInfo) (dir1, dir2, dir3 string){
+	if f.dir1[:3] == "ui_" {
+		dir1 = filepath.Join(conf.Input1, f.dir1)
+		dir3 = conf.Input1
+	} else {
+		dir1 = filepath.Join(conf.Input3, f.dir1)
+		dir3 = conf.Input3
+	}
+	dir2 = filepath.Join(conf.Input2, f.dir2)
+	return
+}
+
 //取繁体资源
 /*
 	&fileprodata{
-		dir1 : "input3\\img\\bg\\bg_jianghu",
-		dir2 : "input2\\UI-美術資源繁體\\11.江湖\\输出文件",
+		dir1 : "bg\\bg_jianghu",
+		dir2 : "11.江湖\\输出文件",
 		m : map[string]string{
 			"module6_jianghu_zhuluzhanchang_a.png":"module6_jianghu_xiakexing_a.png",
 			"module6_jianghu_zhuluzhanchang_b.png":"module6_jianghu_xiakexing_b.png",
 		},
 	},
 */
-func (f *fileprodata) proc() []*procret {
+func (f *fileprodata) proc(conf *configInfo) []*procret {
+	dir1, dir2, dir3 := f.getDir(conf)
 	ret := []*procret{}
 	for k, v := range f.m {
-		t := filepath.Join(f.dir1, k)
-		d := createDir(t, inputDir1)
+		t := filepath.Join(dir1, k)
+		d := createDir(t, dir3, conf.Output)
 		nf := filepath.Join(d, k)
-		of := filepath.Join(f.dir2, v)
+		of := filepath.Join(dir2, v)
 		copy(of, nf)
 		ret = append(ret, &procret{Input1: t, Input2 : of, Output: nf})
 	}
@@ -329,6 +300,18 @@ type dirprodata struct {
 	dir1 string
 	dir2 string
 	convert func(string) (string, string)
+}
+
+func (d *dirprodata) getDir(conf *configInfo) (dir1, dir2, dir3 string){
+	if d.dir1[:3] == "ui_" {
+		dir1 = filepath.Join(conf.Input1, d.dir1)
+		dir3 = conf.Input1
+	} else {
+		dir1 = filepath.Join(conf.Input3, d.dir1)
+		dir3 = conf.Input3
+	}
+	dir2 = filepath.Join(conf.Input2, d.dir2)
+	return
 }
 
 //取交集 
@@ -342,14 +325,15 @@ type dirprodata struct {
 		},
 	},
 */
-func (i *dirprodata) proc() []*procret {
-	fs1 := getFileBase(i.dir1)
-	fs2 := getFileBase(i.dir2)
+func (i *dirprodata) proc(conf *configInfo) []*procret {
+	dir1, dir2, dir3 := i.getDir(conf)
+	fs1 := getFileBase(dir1)
+	fs2 := getFileBase(dir2)
 	ret := []*procret{}
 	for k, v := range fs2 {
 		kc, nn := i.convert(k)
 		if v1, ok := fs1[kc]; ok {
-			d := createDir(v1, inputDir3)
+			d := createDir(v1, dir3, conf.Output)
 			n := filepath.Join(d, nn)
 			copy(v, n)
 			ret = append(ret, &procret{Input1: v1, Input2 : v, Output: n})
@@ -455,13 +439,21 @@ func delDirname(name string) string {
 	return b[len(l)+1:]
 }
 
-//path: input1\ui\ui_login\ui_login_jian.png 
-//create dir: output\ui\ui_login\
-//return: output\ui\ui_login\
-func createDir(name, dir string) string{
+/*
+name F:\tianxian_client\other\edit\ui\ui_zlzc\ui_zlzc_module83_zlzc_15.png
+dir F:\tianxian_client\other\edit\ui
+output C:\Users\Administrator\go\src\res_proc\output
+return C:\Users\Administrator\go\src\res_proc\output\ui_zlzc
+*/
+func createDir(name, dir, output string) string{
 	d := filepath.Dir(name)
-	d = d[len(dir):]
-	d = filepath.Join(outputDir, d)
+	//F:\tianxian_client\other\edit\ui\ui_zlzc
+	d2 := filepath.Dir(dir)
+	//F:\tianxian_client\other\edit
+	d = d[len(d2):]
+	//\ui\ui_zlzc
+	d = filepath.Join(output, d)
+	//C:\Users\Administrator\go\src\res_proc\output\\ui\ui_zlzc
 	if _, err := os.Stat(d); os.IsNotExist(err) {
 		os.MkdirAll(d, os.ModePerm)
 	}
@@ -517,6 +509,9 @@ type configInfo struct {
 	Input2 string `json:"tradition_res"`
 	Input3 string `json:"img_path"`
 	Output string `json:"output_path"`
+	DropFile []string `json:"drop_file"`
+	RepeatFile []string `json:"repeat_file"`
+	NotWarn []string `json:"not_warn"`
 }
 
 func loadConf() (*configInfo, error) {
@@ -533,16 +528,32 @@ func loadConf() (*configInfo, error) {
     return ci, nil
 }
 
+func getSepFile(files []string, dir string) map[string]bool {
+	//"input2\\UI-美術資源繁體\\14.斗酒\\module33_doujiu_lose.png":true,
+	ret := make(map[string]bool)
+	for _, v := range files {
+		str := filepath.Join(dir, v)
+		ret[str] = true
+	}
+	return ret
+}
+
 func main() {
+	conf, err := loadConf()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
-	//conf, err := loadConf()
-	//fmt.Println(conf, err)
+	droplist := getSepFile(conf.DropFile, conf.Input2)
+	repeatForbitlist := getSepFile(conf.NotWarn, conf.Input2)
+	repeatlist := getSepFile(conf.RepeatFile, conf.Input2)
 
-	RemoveContents(outputDir)
+	RemoveContents(conf.Output)
 
-	files1 := getFileList(inputDir1)
-	files2 := getFileList(inputDir2)
-	files3 := getFileList(inputDir3)
+	files1 := getFileList(conf.Input1)
+	files2 := getFileList(conf.Input2)
+	files3 := getFileList(conf.Input3)
 
 	fmt.Printf("input1:%d\n", len(files1))
 	fmt.Printf("input2:%d\n", len(files2))
@@ -571,7 +582,7 @@ func main() {
 
 	//特定文件夹比较
 	for _, v := range dirpro {
-		list := v.proc()
+		list := v.proc(conf)
 		for _, v1 := range list {
 			//记录已经使用的文件
 			uf[v1.Input2] = append(uf[v1.Input2], v1.Input1)
@@ -580,7 +591,7 @@ func main() {
 
 	//特定文件比较
 	for _, v := range filepro {
-		list := v.proc()
+		list := v.proc(conf)
 		for _, v1 := range list {
 			//记录已经使用的文件
 			uf[v1.Input2] = append(uf[v1.Input2], v1.Input1)
@@ -606,7 +617,7 @@ func main() {
 				}
 			}
 
-			d := createDir(file, inputDir1)
+			d := createDir(file, conf.Input1, conf.Output)
 			n := filepath.Join(d, filepath.Base(file))
 			_, err := copy(v, n)
 			if err != nil {
