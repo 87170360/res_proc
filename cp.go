@@ -119,20 +119,27 @@ func main() {
 		return
 	}
 
+	num := 0
 	files := getFileList(conf.Output)
 	for _, v := range files {
 		h1, err := getHash(v)
 		if err != nil {
-			continue
+			return
 		}
 		tar := getTarget(v)
-		h2, err := getHash(tar)
-		if err != nil {
+		if _, err := os.Stat(tar); os.IsNotExist(err) {
+			fmt.Printf("target noexist %s\n", tar)
 			continue
 		}
+		h2, err := getHash(tar)
+		if err != nil {
+			return
+		}
 		if h1 != h2 {
-			//fmt.Printf("%s\ncopy to\n%s", v, tar)
+			fmt.Printf("%s\ncopy to\n%s", v, tar)
+			num++
 			copy(v, tar)
 		}
 	}
+	fmt.Printf("copy num:%d\n", num)
 }
