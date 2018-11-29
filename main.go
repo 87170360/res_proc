@@ -637,6 +637,8 @@ func main() {
 			fmt.Println(k)
 		}
 	}
+
+	//repeate use
 	fmt.Println("重复使用的资源")
 	for k, v := range uf {
 		if len(v) > 1 {
