@@ -4,7 +4,7 @@
 set start=%time%
 
 :: Runs your command
-go run main.go
+go run create.go
 
 cmd /c %*
 
