@@ -61,6 +61,14 @@ var (
 				return str, str
 			},
 		},
+		&dirprodata{
+			dir1 : "bg\\bg_guess",
+			dir2 : "15.斗老千\\斗老千",
+			//0.png -> 0.png 
+			convert : func(str string) (string, string) {
+				return str, str
+			},
+		},
 	}
 
 	filepro = []*fileprodata {

@@ -136,7 +136,7 @@ func main() {
 			return
 		}
 		if h1 != h2 {
-			fmt.Printf("%s\ncopy to\n%s", v, tar)
+			fmt.Printf("%s\ncopy to\n%s\n", v, tar)
 			num++
 			copy(v, tar)
 		}
