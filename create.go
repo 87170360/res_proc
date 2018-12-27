@@ -38,6 +38,14 @@ var (
 			},
 		},
 		&dirprodata{
+			dir1 : "bg\\bg_activity",
+			dir2 : "27.活动\\6.运营活动",
+			//0.png -> 0.png 
+			convert : func(str string) (string, string) {
+				return str, str
+			},
+		},
+		&dirprodata{
 			dir1 : "build",
 			dir2 : "3.主界面\\功能建筑（繁体）",
 			//0.png -> 0.png 
